@@ -1,17 +1,16 @@
-const CACHE_NAME = 'zte-pro-quiz-v1';
+const CACHE_NAME = 'zte-pro-quiz-' + '2026042701';
 const urlsToCache = [
   './',
   './ma_quante_ne_so_pro.html',
   './manifest.json'
 ];
-
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(urlsToCache))
   );
+  self.skipWaiting();
 });
-
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
@@ -22,15 +21,13 @@ self.addEventListener('activate', event => {
           }
         })
       );
-    })
+    }).then(() => self.clients.claim())
   );
 });
-
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') {
     return;
   }
-
   if (event.request.url.includes('script.google.com')) {
     event.respondWith(
       fetch(event.request)
@@ -38,7 +35,6 @@ self.addEventListener('fetch', event => {
     );
     return;
   }
-
   event.respondWith(
     caches.match(event.request)
       .then(response => {
