@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Update service worker cache version
         run: |
@@ -24,4 +26,4 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add sw.js
-          git diff --staged --quiet || (git pull --rebase && git commit -m "Auto-update cache version [skip ci]" && git push)
+          git diff --staged --quiet || (git stash && git pull --rebase && git stash pop && git add sw.js && git commit -m "Auto-update cache version [skip ci]" && git push)
