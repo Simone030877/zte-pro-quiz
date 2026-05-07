@@ -1,4 +1,4 @@
-const CACHE_NAME = 'zte-pro-quiz-20260507080725';
+const CACHE_NAME = 'zte-pro-quiz-20260507080741';
 const urlsToCache = [
   './',
   './ma_quante_ne_so_pro.html',
